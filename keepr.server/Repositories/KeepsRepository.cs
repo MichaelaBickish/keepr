@@ -1,7 +1,14 @@
+using System.Data;
+
 namespace keepr.server.Repositories
 {
-    public class KeepsRepository
+  public class KeepsRepository
+  {
+    private readonly IDbConnection _db;
+
+    public KeepsRepository(IDbConnection db)
     {
-        
+      _db = db;
     }
+  }
 }

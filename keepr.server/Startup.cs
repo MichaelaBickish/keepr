@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using keepr.server.Repositories;
+using keepr.server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,8 +47,16 @@ namespace keepr.server
       services.AddScoped<IDbConnection>(x => CreateDbConnection());
 
       //TODO add transient services
+      services.AddScoped<ProfilesService>();
+      services.AddTransient<KeepsService>();
+      services.AddTransient<VaultKeepsService>();
+      services.AddTransient<VaultsService>();
 
       //TODO add transient repos
+      services.AddScoped<ProfilesRepository>();
+      services.AddTransient<KeepsRepository>();
+      services.AddTransient<VaultKeepsRepository>();
+      services.AddTransient<VaultsRepository>();
 
     }
 

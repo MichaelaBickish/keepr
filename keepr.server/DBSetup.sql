@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS vaults(
   description VARCHAR(255) NOT NULL COMMENT 'Vault Description',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  img VARCHAR(255) COMMENT 'Vault imgUrl',
   isPrivate boolean COMMENT 'Vault Privacy',
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
@@ -51,5 +52,7 @@ CREATE TABLE IF NOT EXISTS vault_keeps(
   FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 -- //fkey for vault id, keep id, profile id.
--- no account model. 1 profile model
--- account controller & profile controller
+SELECT
+  *
+FROM
+  accounts
