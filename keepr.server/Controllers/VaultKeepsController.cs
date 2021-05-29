@@ -23,6 +23,6 @@ namespace keepr.server.Controllers
     // [Authorize]
     // [HttpDelete("{id}")]
 
-    //GetVaultKeeps
+
   }
 }
