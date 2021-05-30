@@ -5,6 +5,7 @@ using System.Data;
 using keepr.server.Models;
 using Dapper;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace keepr.server.Repositories
 {
@@ -64,6 +65,19 @@ namespace keepr.server.Repositories
     {
       string sql = "DELETE FROM vaults WHERE id = @id LIMIT 1;";
       _db.Execute(sql, new { id });
+    }
+
+    internal IEnumerable<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId)
+    {
+      // repo: join account, vault & keep info.
+      string sql = @"
+                SELECT 
+                k.*,
+                vk.id AS vaultKeepId
+                FROM vault_keeps vk
+                INNER JOIN keeps k ON k.id = vk.keepId
+                WHERE vaultId = @VaultId";
+      return _db.Query<VaultKeepsViewModel>(sql, new { vaultId });
     }
   }
 }

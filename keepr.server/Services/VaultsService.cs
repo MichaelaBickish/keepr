@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using keepr.server.Models;
 using keepr.server.Repositories;
 
@@ -24,10 +25,6 @@ namespace keepr.server.Services
       if (v == null)
       {
         throw new Exception("Invalid Id");
-      }
-      else if (v.IsPrivate == true)
-      {
-        throw new Exception("This vault is private!");
       }
       return v;
     }
@@ -56,6 +53,20 @@ namespace keepr.server.Services
         throw new Exception("Only the owner of this vault can delete it.");
       }
       _vaultsRepo.DeleteVault(id);
+    }
+
+    internal IEnumerable<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId, string userId)
+    {
+      Vault v = _vaultsRepo.GetById(vaultId);
+      if (v == null)
+      {
+        throw new Exception("Invalid Id");
+      }
+      else if (v.IsPrivate == true)
+      {
+        throw new Exception("This vault is private!");
+      }
+      return _vaultsRepo.GetVkeepsByVaultId(vaultId);
     }
   }
 }

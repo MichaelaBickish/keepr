@@ -17,6 +17,10 @@ namespace keepr.server.Repositories
 
     public VaultKeeps Create(VaultKeeps vk)
     {
+      //TODO inside sql statement, update keeps count??
+      //UPDATE keeps
+      // SET
+      //keeps = keeps +1
       string sql = @"
             INSERT INTO 
                 vault_keeps(vaultId, keepId)
@@ -26,5 +30,21 @@ namespace keepr.server.Repositories
       vk.Id = _db.ExecuteScalar<int>(sql, vk);
       return vk;
     }
+
+    internal void Remove(int id)
+    {
+      string sql = "DELETE FROM vault_keeps WHERE id = @id LIMIT 1;";
+      _db.Execute(sql, new { id });
+    }
+
+    //Get vaultkeep by id for delete vaultkeep
+    internal VaultKeepsViewModel GetVaultKeepById(int id)
+    {
+      string sql = @"
+      SELECT * FROM vault_keeps WHERE id = @id";
+      return _db.QueryFirstOrDefault<VaultKeepsViewModel>(sql, new { id });
+    }
+
+
   }
 }

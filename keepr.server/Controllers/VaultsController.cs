@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using keepr.server.Models;
@@ -47,11 +48,23 @@ namespace keepr.server.Controllers
 
     //Get vault by id - get if public - don't get if it's private.
     [HttpGet("{id}")]
-    public ActionResult<Keep> GetById(int id)
+    public async Task<ActionResult<Keep>> GetById(int id)
     {
       try
       {
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
         Vault vault = _vaultsService.GetById(id);
+        // if vault is private and user is not creator, cant access
+        // if vault is private and user is creator, CAN access.
+        // if not private, can access
+        if (vault.IsPrivate == true && vault.CreatorId != userInfo.Id)
+        {
+          throw new Exception("This vault is private!");
+        }
+        else if (vault.IsPrivate == true && vault.CreatorId == userInfo.Id)
+        {
+          return Ok(vault);
+        }
         return Ok(vault);
       }
       catch (Exception e)
@@ -60,10 +73,36 @@ namespace keepr.server.Controllers
       }
     }
 
-    //TODO
-    //Get vaultkeeps- get keeps by vault id- IF VAULT IS MARKED PRIVATE, only owner can view keeps.
-    // repo: join account, vault & keep info.
-    // [HttpGet("{VaultId/keeps}")]
+    //GET vaultkeeps- get keeps by vault id- IF VAULT IS MARKED PRIVATE, only owner can view keeps.
+    // api/vaults/:vaultId/keeps
+    [HttpGet("{id}/keeps")]
+    public async Task<ActionResult<IEnumerable<VaultKeepsViewModel>>> GetVkeepsByVaultId(int vaultId)
+    {
+      try
+      {
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        var userId = userInfo.Id;
+        var vKeeps = _vaultsService.GetVkeepsByVaultId(vaultId, userId);
+        Vault vault = _vaultsService.GetById(vaultId);
+        // if vault is private and user is not creator, cant access
+        // if vault is private and user is creator, CAN access.
+        // if not private, can access
+        if (vault.IsPrivate == true && vault.CreatorId != userInfo.Id)
+        {
+          throw new Exception("This vault's keeps are private!");
+        }
+        else if (vault.IsPrivate == true && vault.CreatorId == userInfo.Id)
+        {
+          return Ok(vKeeps);
+        }
+        return Ok(vKeeps);
+
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
 
 
     //Edit

@@ -55,9 +55,10 @@ CREATE TABLE IF NOT EXISTS vault_keeps(
 SELECT
   *
 FROM
-  accounts -- INSERT INTO
+  keeps -- --
+  -- INSERT INTO
   --   keeps (description, img, views, shares, keeps)
   -- VALUES
-  --   ("My first keep!", "@Img",, @Shares, @Keeps)
+  --   ("My first keep!", "@Img", @Shares, @Keeps)
   -- SELECT
   --   LAST_INSERT_ID();
