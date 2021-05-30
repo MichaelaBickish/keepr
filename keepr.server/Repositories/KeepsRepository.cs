@@ -19,8 +19,8 @@ namespace keepr.server.Repositories
     {
       string sql = @"
                 INSERT INTO
-                keeps(description, img, views, shares, keeps)
-                VALUES (@Description, @Img, @Views, @Shares, @Keeps);
+                keeps(name, description, img)
+                VALUES (@Name, @Description, @Img);
                 SELECT LAST_INSERT_ID();
             ";
       newKeep.Id = _db.ExecuteScalar<int>(sql, newKeep);
@@ -35,7 +35,7 @@ namespace keepr.server.Repositories
                 a.* 
             FROM keeps k 
             JOIN accounts a ON a.id = k.creatorId
-            WHERE k.id = @id";
+            WHERE k.id = @Id;";
       return _db.Query<Keep, Profile, Keep>(sql, (k, a) =>
       {
         k.Creator = a;
@@ -67,7 +67,7 @@ namespace keepr.server.Repositories
             UPDATE keeps 
             SET 
                 name = @Name,
-                location = @Location,
+                description = @Description,
                 img = @Img
             WHERE id = @Id;
             ";

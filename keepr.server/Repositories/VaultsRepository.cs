@@ -3,6 +3,8 @@ using System;
 using keepr.server.Models;
 using System.Data;
 using keepr.server.Models;
+using Dapper;
+using System.Linq;
 
 namespace keepr.server.Repositories
 {
@@ -17,22 +19,51 @@ namespace keepr.server.Repositories
 
     internal Vault Create(Vault newVault)
     {
-      throw new NotImplementedException();
+      string sql = @"
+                INSERT INTO
+                vaults(name, description, isPrivate, img)
+                VALUES (@Name, @Description, @IsPrivate, @Img);
+                SELECT LAST_INSERT_ID();
+            ";
+      newVault.Id = _db.ExecuteScalar<int>(sql, newVault);
+      return newVault;
     }
 
     internal Vault GetById(int id)
     {
-      throw new NotImplementedException();
+      string sql = @"
+            SELECT 
+                v.*, 
+                a.* 
+            FROM vaults v 
+            JOIN accounts a ON a.id = v.creatorId
+            WHERE v.id = @Id";
+      return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
+      {
+        v.Creator = a;
+        return v;
+      }, new { id }).FirstOrDefault();
     }
 
     internal Vault Update(Vault v)
     {
-      throw new NotImplementedException();
+      string sql = @"
+            UPDATE vaults 
+            SET 
+                name = @Name,
+                description = @Description,
+                isPrivate = @IsPrivate,
+                img = @Img
+            WHERE id = @Id;
+            ";
+      _db.Execute(sql, v);
+      return v;
     }
 
     internal void DeleteVault(int id)
     {
-      throw new NotImplementedException();
+      string sql = "DELETE FROM vaults WHERE id = @id LIMIT 1;";
+      _db.Execute(sql, new { id });
     }
   }
 }
