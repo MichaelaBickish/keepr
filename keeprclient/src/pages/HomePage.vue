@@ -1,9 +1,22 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo">
-    <h1 class="my-5 bg-dark text-light p-3 rounded d-flex align-items-center">
-      <span class="mx-2 text-white">Vue 3 Starter</span>
-    </h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-3">
+        <!-- card start -->
+        <div class="card text-white m-2 shadow">
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/02/25/67/df/filename-homer-jpg-thumbnail0.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay d-flex align-items-end justify-content-between">
+            <h5 class="card-title mb-0">
+              Card title
+            </h5>
+            <p class="card-text">
+              Creator Info
+            </p>
+          </div>
+        </div>
+        <!-- End card -->
+      </div>
+    </div>
   </div>
 </template>
 
