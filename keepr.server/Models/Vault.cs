@@ -8,11 +8,11 @@ namespace keepr.server.Models
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    [Required]
+    // [Required]
     public string CreatorId { get; set; }
-    [Required]
+    // [Required]
     public string Name { get; set; }
-    [Required]
+    // [Required]
     public string Description { get; set; }
     public bool IsPrivate { get; set; } = false;
     public string img { get; set; } = "//placehold.it/200x200";
