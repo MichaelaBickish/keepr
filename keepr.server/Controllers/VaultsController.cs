@@ -48,7 +48,7 @@ namespace keepr.server.Controllers
 
     //Get vault by id - get if public - don't get if it's private.
     [HttpGet("{id}")]
-    public async Task<ActionResult<Keep>> GetById(int id)
+    public async Task<ActionResult<Vault>> GetById(int id)
     {
       try
       {
@@ -76,26 +76,26 @@ namespace keepr.server.Controllers
     //GET vaultkeeps- get keeps by vault id- IF VAULT IS MARKED PRIVATE, only owner can view keeps.
     // api/vaults/:vaultId/keeps
     [HttpGet("{id}/keeps")]
-    public async Task<ActionResult<IEnumerable<VaultKeepsViewModel>>> GetVkeepsByVaultId(int vaultId)
+    public async Task<ActionResult<List<VaultKeepsViewModel>>> GetVkeepsByVaultId(int vaultId)
     {
       try
       {
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-        var userId = userInfo.Id;
-        var vKeeps = _vaultsService.GetVkeepsByVaultId(vaultId, userId);
-        Vault vault = _vaultsService.GetById(vaultId);
+        var vKeeps = _vaultsService.GetVkeepsByVaultId(vaultId, userInfo.Id);
+        List<VaultKeepsViewModel> vaultkeeps = _vaultsService.GetVkeepsByVaultId(vaultId, userInfo.Id);
         // if vault is private and user is not creator, cant access
         // if vault is private and user is creator, CAN access.
         // if not private, can access
-        if (vault.IsPrivate == true && vault.CreatorId != userInfo.Id)
-        {
-          throw new Exception("This vault's keeps are private!");
-        }
-        else if (vault.IsPrivate == true && vault.CreatorId == userInfo.Id)
-        {
-          return Ok(vKeeps);
-        }
-        return Ok(vKeeps);
+        return Ok(vaultkeeps);
+        // if (vault.IsPrivate == true && vault.CreatorId != userInfo.Id)
+        // {
+        //   throw new Exception("This vault's keeps are private!");
+        // }
+        // else if (vault.IsPrivate == true && vault.CreatorId == userInfo.Id)
+        // {
+        //   return Ok(vKeeps);
+        // }
+        // return Ok(vKeeps);
 
       }
       catch (Exception e)

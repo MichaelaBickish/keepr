@@ -55,14 +55,14 @@ namespace keepr.server.Services
       _vaultsRepo.DeleteVault(id);
     }
 
-    internal IEnumerable<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId, string userId)
+    internal List<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId, string userId)
     {
-      Vault v = _vaultsRepo.GetById(vaultId);
-      if (v == null)
+      Vault vault = _vaultsRepo.GetById(vaultId);
+      if (vault == null)
       {
-        throw new Exception("Invalid Id");
+        throw new Exception("Inaultalid Id");
       }
-      else if (v.IsPrivate == true)
+      else if (vault.IsPrivate == true)
       {
         throw new Exception("This vault is private!");
       }

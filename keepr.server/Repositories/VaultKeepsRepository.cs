@@ -23,8 +23,8 @@ namespace keepr.server.Repositories
       //keeps = keeps +1
       string sql = @"
             INSERT INTO 
-                vault_keeps(vaultId, keepId)
-            VALUES(@VaultId, @KeepId);
+                vault_keeps(vaultId, keepId, creatorId)
+            VALUES(@VaultId, @KeepId, @CreatorId);
             SELECT LAST_INSERT_ID();
             ";
       vk.Id = _db.ExecuteScalar<int>(sql, vk);

@@ -64,17 +64,20 @@ namespace keepr.server.Repositories
       _db.Execute(sql, new { id });
     }
 
-    internal IEnumerable<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId)
+    internal List<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId)
     {
       // repo: join account, vault & keep info.
       string sql = @"
                 SELECT 
                 k.*,
-                vk.id AS vaultKeepId
+                v.*,
+                vk.id AS vaultKeepsId,
+                vk.vaultId AS vaultId
                 FROM vault_keeps vk
-                INNER JOIN keeps k ON k.id = vk.keepId
-                WHERE vaultId = @VaultId";
-      return _db.Query<VaultKeepsViewModel>(sql, new { vaultId });
+                JOIN keeps k ON k.id = vk.keepId
+                JOIN vaults v ON v.id = vk.vaultId
+                WHERE vk.vaultId = @vaultId AND isPrivate = 0";
+      return _db.Query<VaultKeepsViewModel>(sql, new { vaultId }).ToList();
     }
   }
 }

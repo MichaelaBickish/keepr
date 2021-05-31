@@ -41,23 +41,29 @@ namespace keepr.server.Services
       {
         throw new Exception("Invalid Id");
       }
-      if (keep.CreatorId != id)
+      if (k.CreatorId != keep.CreatorId)
       {
         throw new Exception("Only the owner of this keep can edit it.");
       }
+      keep.Name = k.Name.Length > 0 ? k.Name : keep.Name;
+      keep.Description = k.Description.Length > 0 ? k.Description : keep.Description;
+      keep.Img = k.Img.Length > 0 ? k.Img : keep.Img;
+      keep.Views = k.Views > 0 ? k.Views : keep.Views;
+      keep.Keeps = k.Keeps > 0 ? k.Keeps : keep.Keeps;
+      keep.Shares = k.Shares > 0 ? k.Shares : keep.Shares;
 
-      return _keepsRepo.Update(k);
+      return _keepsRepo.Update(keep);
     }
 
-    internal void DeleteKeep(int id, string userId)
+    internal void RemoveKeep(int id, string userId)
     {
-      Keep keep = GetById(id);
+      Keep keep = _keepsRepo.GetById(id);
       //check that creator is user.
       if (keep.CreatorId != userId)
       {
         throw new Exception("Only the owner of this keep can delete it.");
       }
-      _keepsRepo.DeleteKeep(id);
+      _keepsRepo.RemoveKeep(id);
     }
   }
 }

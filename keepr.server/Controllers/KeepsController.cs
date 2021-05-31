@@ -87,6 +87,7 @@ namespace keepr.server.Controllers
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
         // don't trust client.
         update.Id = id;
+        update.CreatorId = userInfo.Id;
         Keep newKeep = _keepsService.Update(update, userInfo.Id);
         newKeep.Creator = userInfo;
         return Ok(newKeep);
@@ -100,13 +101,13 @@ namespace keepr.server.Controllers
     // Delete
     [Authorize]
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Keep>> Delete(int id)
+    public async Task<ActionResult<string>> Remove(int id)
     {
       try
       {
         //don't trust client.
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-        _keepsService.DeleteKeep(id, userInfo.Id);
+        _keepsService.RemoveKeep(id, userInfo.Id);
         return Ok("Keep Successfully Deleted!");
       }
       catch (Exception e)

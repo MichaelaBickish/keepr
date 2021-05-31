@@ -68,13 +68,16 @@ namespace keepr.server.Repositories
             SET 
                 name = @Name,
                 description = @Description,
-                img = @Img
+                img = @Img,
+                views = @Views,
+                keeps = @Keeps, 
+                shares = @Shares
             WHERE id = @Id;
             ";
       _db.Execute(sql, k);
       return k;
     }
-    internal void DeleteKeep(int id)
+    public void RemoveKeep(int id)
     {
       string sql = "DELETE FROM keeps WHERE id = @id LIMIT 1;";
       _db.Execute(sql, new { id });
