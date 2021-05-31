@@ -4,6 +4,7 @@
   </header>
   <main>
     <router-view />
+    <KeepModalComponent />
   </main>
 </template>
 
