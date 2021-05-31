@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS accounts(
 CREATE TABLE IF NOT EXISTS keeps(
   id INT NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
   creatorId VARCHAR(255) NOT NULL COMMENT 'FK: User Account',
-  name varchar(255) NOT NULL COMMENT 'Keep Name/Title',
+  name VARCHAR(255) NOT NULL COMMENT 'Keep Name/Title',
   description VARCHAR(255) NOT NULL COMMENT 'Keep Description',
   img VARCHAR(255) NOT NULL COMMENT 'Keep imgUrl',
   views INT NOT NULL COMMENT 'Keep Views',

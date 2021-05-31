@@ -37,7 +37,7 @@ namespace keepr.server.Controllers
 
         Keep keep = _keepsService.Create(newKeep);
         //add profile to the new object as creator.
-        keep.Creator = fullProfile;
+        keep.Creator = userInfo;
         return Ok(keep);
       }
       catch (Exception e)
