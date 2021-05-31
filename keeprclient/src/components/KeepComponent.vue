@@ -1,26 +1,26 @@
 <template>
-  <!--  -->
-  <div class="col-12 col-md-3">
-    card start -->
-    <div class="card text-white m-2 shadow">
-      <img src="https://media-cdn.tripadvisor.com/media/photo-s/02/25/67/df/filename-homer-jpg-thumbnail0.jpg" class="card-img" alt="...">
-      <div class="card-img-overlay d-flex align-items-end justify-content-between">
-        <h5 class="card-title mb-0">
-          Card title
-        </h5>
-        <p class="card-text">
-          Creator Info
-        </p>
-      </div>
-    </div> -->
-  <!-- End card -->
+  <!-- card start -->
+  <div class="card text-white shadow">
+    <img :src="keep.img" class="card-img" alt="...">
+    <div class="card-img-overlay d-flex align-items-end justify-content-between">
+      <h5 class="card-title mb-0">
+        {{ keep.name }}
+      </h5>
+      <img :src="keep.creator.img" alt="">
+    </div>
   </div>
-  <!--  -->
+  <!-- End card -->
 </template>
 
 <script>
 export default {
   name: 'KeepComponent',
+  props: {
+    keep: {
+      type: Object,
+      required: true
+    }
+  },
   setup() {
     return {}
   },

@@ -1,38 +1,42 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-12 col-md-3">
-        <!-- card start -->
-        <div class="card text-white m-2 shadow">
-          <img src="https://media-cdn.tripadvisor.com/media/photo-s/02/25/67/df/filename-homer-jpg-thumbnail0.jpg" class="card-img" alt="...">
-          <div class="card-img-overlay d-flex align-items-end justify-content-between">
-            <h5 class="card-title mb-0">
-              Card title
-            </h5>
-            <p class="card-text">
-              Creator Info
-            </p>
-          </div>
-        </div>
-        <!-- End card -->
+      <!-- <div class=""> -->
+      <div class="card-columns">
+        <KeepComponent v-for="keep in state.keeps" :key="keep.id" :keep="keep" />
       </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
 
 <script>
+import { computed, onMounted, reactive } from 'vue'
+import { AppState } from '../AppState'
+import Notification from '../utils/Notification'
+import { keepsService } from '../services/KeepsService'
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    const state = reactive({
+      keeps: computed(() => AppState.keeps)
+    })
+    onMounted(async() => {
+      try {
+        await keepsService.getAll()
+      } catch (error) {
+        Notification.toast('Error: ' + error, 'error')
+      }
+    })
+    return {
+      state
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
-.home{
-  text-align: center;
-  user-select: none;
-  > img{
-    height: 200px;
-    width: 200px;
-  }
-}
+// .card-columns {
+//   column-span: 4;
+// }
 </style>
