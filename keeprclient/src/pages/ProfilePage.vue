@@ -6,8 +6,8 @@
       </div>
       <div class="col-md-7">
         <h1>{{ state.activeProfile.name }}</h1>
-        <p>Vaults:</p>
-        <p>Keeps:</p>
+        <p>Vaults: </p>
+        <p>Keeps: {{ state.keeps.length }}</p>
       </div>
     </div>
     <div class="row my-3">
