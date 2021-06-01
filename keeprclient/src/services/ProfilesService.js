@@ -7,8 +7,13 @@ class ProfilesService {
   }
 
   async getProfileKeeps(id) {
-    const res = await api.get('api/profiles/' + id + 'keeps')
+    const res = await api.get('api/profiles/' + id + '/keeps')
     AppState.profileKeeps = res.data
+  }
+
+  async getProfileVaults(id) {
+    const res = await api.get('api/profiles/' + id + '/vaults')
+    AppState.profileVaults = res.data
   }
 }
 export const profilesService = new ProfilesService()
