@@ -1,14 +1,14 @@
 <template class="Keep-Modal-Component">
-  <div class="modal fade" id="keep-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal" id="keep-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-body">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-6">
-                <img src="//placehold.it/700X700" class="keep-img">
+              <div class="col-12 col-md-6">
+                <img src="https://images.ctfassets.net/hrltx12pl8hq/3MbF54EhWUhsXunc5Keueb/60774fbbff86e6bf6776f1e17a8016b4/04-nature_721703848.jpg?fit=fill&w=480&h=270" class="keep-img">
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -77,6 +77,6 @@ export default {
 
 <style lang="scss" scoped>
 .keep-img{
-  max-width: 14rem;
+  max-width: 100%;
 }
 </style>

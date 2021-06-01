@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
+      <!-- {{ state.keeps }} -->
       <!-- <div class=""> -->
       <div class="card-columns">
         <KeepComponent v-for="keep in state.keeps" :key="keep.id" :keep="keep" />
