@@ -10,9 +10,9 @@
           {{ keep.name }}
         </h5>
       </button>
-      <!-- <router-link :to="{name: 'ProfilePage', params:{id: keep.creator.id}}"> -->
-      <img :src="keep.creator.picture" class="rounded-circle creator-img" alt="">
-      <!-- </router-link> -->
+      <router-link :to="{name: 'ProfilePage', params:{id: keep.creator.id}}">
+        <img :src="keep.creator.picture" class="rounded-circle creator-img" alt="">
+      </router-link>
     </div>
   </div>
   <!-- End card -->
