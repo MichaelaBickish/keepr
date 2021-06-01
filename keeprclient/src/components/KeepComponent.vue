@@ -6,12 +6,12 @@
     <div class="card-img-overlay d-flex align-items-end justify-content-between">
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-outline-transparent" data-toggle="modal" data-target="#keep-modal" @click="setActiveKeep()">
-        <h5 class="card-title mb-0 text-white">
+        <h5 class="card-title mb-0 text-white" title="View Keep">
           {{ keep.name }}
         </h5>
       </button>
       <router-link :to="{name: 'ProfilePage', params:{id: keep.creator.id}}">
-        <img :src="keep.creator.picture" class="rounded-circle creator-img" alt="">
+        <img :src="keep.creator.picture" class="rounded-circle creator-img" title="View Profile" alt="">
       </router-link>
     </div>
   </div>
