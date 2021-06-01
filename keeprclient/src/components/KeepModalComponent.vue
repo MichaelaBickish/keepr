@@ -72,7 +72,7 @@
                   </div>
                   <!-- delete column -->
                   <div class="col-2 justify-content-center align-items-center d-flex">
-                    <i class="fa fa-trash text-danger action" @click="deleteKeep" v-if="state.activeKeep.creatorId == state.account.id" aria-hidden="true"></i>
+                    <i class="fa fa-trash text-danger action" @click="deleteKeep(state.activeKeep)" v-if="state.activeKeep.creatorId == state.account.id" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
@@ -87,6 +87,9 @@
 <script>
 import { computed, reactive } from 'vue'
 import { AppState } from '../AppState'
+import Notification from '../utils/Notification'
+import { keepsService } from '../services/KeepsService'
+import $ from 'jquery'
 export default {
   name: 'KeepModalComponent',
   // TODO ? - props for active keep on modal?
@@ -96,8 +99,18 @@ export default {
       account: computed(() => AppState.account)
     })
     return {
-      state
-      // TODO deleteKeep()
+      state,
+      async deleteKeep(activeKeep) {
+        try {
+          if (await Notification.confirmAction()) {
+            await keepsService.deleteKeep(activeKeep)
+            Notification.toast('Your Keep Has Been Deleted!', 'success')
+            $('#keep-modal').modal('hide')
+          }
+        } catch (error) {
+          Notification.toast('Error: ' + error, 'error')
+        }
+      }
     }
   },
   components: {}

@@ -48,6 +48,7 @@
               <label for="isPrivate">Private?</label>
               <input type="checkbox"
                      class="form-control active-cursor"
+                     title="Check This Item"
                      id="isPrivate"
               >
             <!-- v-model="" -->
