@@ -34,6 +34,11 @@ namespace keepr.server.Services
       return k;
     }
 
+    public List<Keep> GetProfileKeeps(string userId)
+    {
+      return _keepsRepo.GetProfileKeeps(userId);
+    }
+
     internal Keep Update(Keep k, string id)
     {
       Keep keep = _keepsRepo.GetById(k.Id);
@@ -54,6 +59,7 @@ namespace keepr.server.Services
 
       return _keepsRepo.Update(keep);
     }
+
 
     internal void RemoveKeep(int id, string userId)
     {

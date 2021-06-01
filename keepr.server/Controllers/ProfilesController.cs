@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using keepr.server.Models;
@@ -44,12 +45,12 @@ namespace keepr.server.Controllers
 
     //Get a user's keeps
     [HttpGet("{id}/keeps")]
-    public ActionResult<Keep> GetKeeps(int id)
+    public ActionResult<List<Keep>> GetProfileKeeps(string id)
     {
       try
       {
-        Keep keep = _keepsService.GetById(id);
-        return Ok(keep);
+        List<Keep> keeps = _keepsService.GetProfileKeeps(id);
+        return Ok(keeps);
       }
       catch (Exception e)
       {

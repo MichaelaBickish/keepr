@@ -43,6 +43,24 @@ namespace keepr.server.Repositories
       }, new { id }).FirstOrDefault();
     }
 
+    public List<Keep> GetProfileKeeps(string userId)
+    {
+      string sql = @"
+      SELECT
+      k.*,
+      k.id as keepId,
+      a.*
+      FROM keeps k
+      JOIN accounts a ON a.id = k.creatorId
+      WHERE
+      k.creatorId = @userId;";
+      return _db.Query<Keep, Profile, Keep>(sql, (k, a) =>
+      {
+        k.Creator = a;
+        return k;
+      }, new { userId }).ToList();
+    }
+
     internal List<Keep> GetAll()
     {
       string sql = @"
