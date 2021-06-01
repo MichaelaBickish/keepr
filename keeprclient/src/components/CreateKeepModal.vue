@@ -25,8 +25,8 @@
                      id="title"
                      placeholder="Title..."
                      required
+                     v-model="state.newKeep.name"
               >
-              <!-- v-model="" -->
             </div>
             <div class="form-group">
               <label for="description">Description</label>
@@ -35,13 +35,18 @@
                      id="description"
                      placeholder="Description..."
                      required
+                     v-model="state.newKeep.description"
               >
-              <!-- v-model="" -->
             </div>
             <div class="form-group">
               <label for="imgUrl">Image Url</label>
-              <input type="text" class="form-control" id="imgUrl" placeholder="Url..." required>
-            <!-- v-model="" -->
+              <input type="text"
+                     class="form-control"
+                     id="imgUrl"
+                     placeholder="Url..."
+                     required
+                     v-model="state.newKeep.img"
+              >
             </div>
           </div>
           <div class="modal-footer">
@@ -59,10 +64,29 @@
 </template>
 
 <script>
+import { keepsService } from '../services/KeepsService'
+import $ from 'jquery'
+import { reactive } from 'vue'
+import Notification from '../utils/Notification'
 export default {
   name: 'CreateKeepModal',
   setup() {
-    return {}
+    const state = reactive({
+      newKeep: {}
+    })
+    return {
+      state,
+      async createKeep() {
+        try {
+          await keepsService.createKeep(state.newKeep)
+          state.newKeep = {}
+          $('#new-keep-form').modal('hide')
+          Notification.toast('Your New Keep Has Been Created!', 'success')
+        } catch (error) {
+          Notification.toast('Error: ' + error, 'error')
+        }
+      }
+    }
   },
   components: {}
 }

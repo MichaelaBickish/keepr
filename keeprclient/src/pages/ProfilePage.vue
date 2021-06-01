@@ -58,6 +58,7 @@ import Notification from '../utils/Notification'
 import { AppState } from '../AppState'
 import { computed, reactive, onMounted, watchEffect } from 'vue'
 import { profilesService } from '../services/ProfilesService'
+
 export default {
   name: 'ProfilePage',
   setup() {
