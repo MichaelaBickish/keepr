@@ -5,7 +5,7 @@
     <a href="" data-toggle="modal" data-target="#keep-modal"></a>
     <div class="card-img-overlay d-flex align-items-end justify-content-between">
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-outline-transparent" data-toggle="modal" data-target="#keep-modal">
+      <button type="button" class="btn btn-outline-transparent" data-toggle="modal" data-target="#keep-modal" @click="setActiveKeep()">
         <h5 class="card-title mb-0 text-white">
           {{ keep.name }}
         </h5>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { AppState } from '../AppState'
 export default {
   name: 'KeepComponent',
   props: {
@@ -27,8 +28,12 @@ export default {
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    return {
+      setActiveKeep() {
+        AppState.activeKeep = props.keep
+      }
+    }
   },
   components: {}
 }
