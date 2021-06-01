@@ -43,9 +43,9 @@
         </h2>
       </div>
     </div>
-    <div class="row my-3">
-      <div class="col">
-        Inject Keeps here {{ state.profileKeeps }}
+    <div class="row my-3 mx-1">
+      <div class="card-columns">
+        <!-- Inject Keeps here {{ state.profileKeeps }} -->
         <KeepComponent v-for="keep in state.keeps" :key="keep.id" :keep="keep" />
       </div>
     </div>
@@ -64,14 +64,14 @@ export default {
     const route = useRoute()
     const state = reactive({
       activeProfile: computed(() => AppState.activeProfile),
-      profileKeeps: computed(() => AppState.profileKeeps),
+      keeps: computed(() => AppState.profileKeeps),
       profileVaults: computed(() => AppState.profileVaults)
     })
     onMounted(async() => {
       try {
         await profilesService.getActiveProfile(route.params.id)
         await profilesService.getProfileKeeps(route.params.id)
-        await profilesService.getProfileVaults(route.params.id)
+        // await profilesService.getProfileVaults(route.params.id)
       } catch (error) {
         Notification.toast('Error: ' + error, 'error')
       }

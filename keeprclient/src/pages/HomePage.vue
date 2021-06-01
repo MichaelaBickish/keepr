@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row my-3 mx-1">
       <!-- {{ state.keeps }} -->
       <!-- <div class=""> -->
       <div class="card-columns">
