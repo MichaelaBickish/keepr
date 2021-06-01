@@ -5,5 +5,10 @@ class ProfilesService {
     const res = await api.get('api/profiles/' + id)
     AppState.activeProfile = res.data
   }
+
+  async getProfileKeeps(id) {
+    const res = await api.get('api/profiles/' + id + 'keeps')
+    AppState.profileKeeps = res.data
+  }
 }
 export const profilesService = new ProfilesService()
