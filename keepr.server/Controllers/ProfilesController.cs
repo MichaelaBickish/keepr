@@ -30,12 +30,12 @@ namespace keepr.server.Controllers
 
     //Get profile
     [HttpGet("{id}")]
-    public async Task<ActionResult<Profile>> Get()
+    public ActionResult<Profile> Get(string id)
     {
       try
       {
-        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-        return Ok(_profilesService.GetOrCreateProfile(userInfo));
+        Profile profile = _profilesService.GetById(id);
+        return Ok(profile);
       }
       catch (Exception e)
       {
