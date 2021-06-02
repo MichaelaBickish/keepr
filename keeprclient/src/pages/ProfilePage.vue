@@ -19,6 +19,7 @@
                          data-toggle="modal"
                          data-target="#new-vault-form"
           >
+            <!-- TODO ADD THIS ON ADD VAULT BUTTON: v-if="state.account.id == route.params.id" -->
             <i class="fas fa-plus" aria-hidden="true"></i>
           </button>
         </h2>
@@ -37,6 +38,7 @@
                         class="btn btn-outline-success"
                         data-toggle="modal"
                         data-target="#new-keep-form"
+                        v-if="state.account.id == route.params.id"
           >
             <i class="fas fa-plus" aria-hidden="true"></i>
           </button>
@@ -56,7 +58,7 @@
 import { useRoute } from 'vue-router'
 import Notification from '../utils/Notification'
 import { AppState } from '../AppState'
-import { computed, reactive, onMounted, watchEffect } from 'vue'
+import { computed, reactive, onMounted } from 'vue'
 import { profilesService } from '../services/ProfilesService'
 
 export default {
@@ -65,6 +67,7 @@ export default {
     const route = useRoute()
     const state = reactive({
       activeProfile: computed(() => AppState.activeProfile),
+      account: computed(() => AppState.account),
       keeps: computed(() => AppState.profileKeeps),
       profileVaults: computed(() => AppState.profileVaults)
     })
@@ -73,13 +76,6 @@ export default {
         await profilesService.getActiveProfile(route.params.id)
         await profilesService.getProfileKeeps(route.params.id)
         // await profilesService.getProfileVaults(route.params.id)
-      } catch (error) {
-        Notification.toast('Error: ' + error, 'error')
-      }
-    })
-    watchEffect(async() => {
-      try {
-        await profilesService.getActiveProfile(route.params.id)
       } catch (error) {
         Notification.toast('Error: ' + error, 'error')
       }

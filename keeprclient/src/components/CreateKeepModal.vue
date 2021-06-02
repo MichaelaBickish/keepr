@@ -66,13 +66,16 @@
 <script>
 import { keepsService } from '../services/KeepsService'
 import $ from 'jquery'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import Notification from '../utils/Notification'
+import { profilesService } from '../services/ProfilesService'
+import { AppState } from '../AppState'
 export default {
   name: 'CreateKeepModal',
   setup() {
     const state = reactive({
-      newKeep: {}
+      newKeep: {},
+      activeProfile: computed(() => AppState.activeProfile)
     })
     return {
       state,
@@ -81,7 +84,9 @@ export default {
           await keepsService.createKeep(state.newKeep)
           state.newKeep = {}
           $('#new-keep-form').modal('hide')
+          // debugger
           Notification.toast('Your New Keep Has Been Created!', 'success')
+          await profilesService.getProfileKeeps(state.activeProfile.id)
         } catch (error) {
           Notification.toast('Error: ' + error, 'error')
         }
