@@ -48,7 +48,6 @@ namespace keepr.server.Repositories
       string sql = @"
       SELECT
       k.*,
-      k.id as keepId,
       a.*
       FROM keeps k
       JOIN accounts a ON a.id = k.creatorId

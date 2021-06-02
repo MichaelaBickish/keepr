@@ -68,5 +68,10 @@ namespace keepr.server.Services
       }
       return _vaultsRepo.GetVkeepsByVaultId(vaultId);
     }
+
+    internal List<Vault> GetProfileVaults(string userId)
+    {
+      return _vaultsRepo.GetProfileVaults(userId);
+    }
   }
 }

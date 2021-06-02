@@ -3,6 +3,7 @@ using System.Data;
 using Dapper;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace keepr.server.Repositories
 {
@@ -78,6 +79,25 @@ namespace keepr.server.Repositories
                 JOIN vaults v ON v.id = vk.vaultId
                 WHERE vk.vaultId = @vaultId AND isPrivate = 0";
       return _db.Query<VaultKeepsViewModel>(sql, new { vaultId }).ToList();
+    }
+
+    internal List<Vault> GetProfileVaults(string userId)
+    {
+      string sql = @"
+      SELECT
+      v.*,
+      a.*
+      FROM 
+      vaults v
+      JOIN accounts a ON a.id = v.creatorId
+      WHERE
+      v.creatorId = @userId;";
+      //  --------item1 = v item2 = a, v:what returns
+      return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
+      {
+        v.Creator = a;
+        return v;
+      }, new { userId }).ToList();
     }
   }
 }

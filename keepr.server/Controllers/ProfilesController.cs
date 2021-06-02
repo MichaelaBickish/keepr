@@ -60,12 +60,12 @@ namespace keepr.server.Controllers
 
     //Get a user's vaults
     [HttpGet("{id}/vaults")]
-    public ActionResult<Keep> GetVaults(int id)
+    public ActionResult<List<Vault>> GetProfileVaults(string id)
     {
       try
       {
-        Vault vault = _vaultsService.GetById(id);
-        return Ok(vault);
+        List<Vault> vaults = _vaultsService.GetProfileVaults(id);
+        return Ok(vaults);
       }
       catch (Exception e)
       {
