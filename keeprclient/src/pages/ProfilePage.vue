@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-7">
         <h1>{{ state.activeProfile.name }}</h1>
-        <p>Vaults: </p>
+        <p>Vaults: {{ state.vaults.length }}</p>
         <p>Keeps: {{ state.keeps.length }}</p>
       </div>
     </div>
@@ -18,8 +18,8 @@
                          class="btn btn-outline-success"
                          data-toggle="modal"
                          data-target="#new-vault-form"
+                         v-if="state.account.id == route.params.id"
           >
-            <!-- TODO ADD THIS ON ADD VAULT BUTTON: v-if="state.account.id == route.params.id" -->
             <i class="fas fa-plus" aria-hidden="true"></i>
           </button>
         </h2>
@@ -69,13 +69,13 @@ export default {
       activeProfile: computed(() => AppState.activeProfile),
       account: computed(() => AppState.account),
       keeps: computed(() => AppState.profileKeeps),
-      profileVaults: computed(() => AppState.profileVaults)
+      vaults: computed(() => AppState.profileVaults)
     })
     onMounted(async() => {
       try {
         await profilesService.getActiveProfile(route.params.id)
         await profilesService.getProfileKeeps(route.params.id)
-        // await profilesService.getProfileVaults(route.params.id)
+        await profilesService.getProfileVaults(route.params.id)
       } catch (error) {
         Notification.toast('Error: ' + error, 'error')
       }
