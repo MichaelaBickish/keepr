@@ -43,7 +43,7 @@
         </h2>
       </div>
     </div>
-    <div class="row my-3 mx-1">
+    <div class="row my-3 mx-1" v-if="state.keeps">
       <div class="card-columns">
         <!-- Inject Keeps here {{ state.profileKeeps }} -->
         <KeepComponent v-for="keep in state.keeps" :key="keep.id" :keep="keep" />
