@@ -81,7 +81,7 @@ namespace keepr.server.Repositories
       return _db.Query<VaultKeepsViewModel>(sql, new { vaultId }).ToList();
     }
 
-    internal List<Vault> GetProfileVaults(string userId)
+    internal List<Vault> GetPublicProfileVaults(string profileId)
     {
       string sql = @"
       SELECT
@@ -91,13 +91,32 @@ namespace keepr.server.Repositories
       vaults v
       JOIN accounts a ON a.id = v.creatorId
       WHERE
-      v.creatorId = @userId;";
+      v.creatorId = @profileId AND v.isPrivate = 0;";
       //  --------item1 = v item2 = a, v:what returns
       return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
       {
         v.Creator = a;
         return v;
-      }, new { userId }).ToList();
+      }, new { profileId }).ToList();
+    }
+
+    internal List<Vault> GetProfileVaults(string profileId)
+    {
+      string sql = @"
+      SELECT
+      v.*,
+      a.*
+      FROM 
+      vaults v
+      JOIN accounts a ON a.id = v.creatorId
+      WHERE
+      v.creatorId = @profileId && v.isPrivate = false;";
+      //  --------item1 = v item2 = a, v:what returns
+      return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
+      {
+        v.Creator = a;
+        return v;
+      }, new { profileId }).ToList();
     }
   }
 }

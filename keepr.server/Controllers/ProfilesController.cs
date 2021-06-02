@@ -64,6 +64,9 @@ namespace keepr.server.Controllers
     {
       try
       {
+        //Get user info to compare in service if signed in userid = profileid.
+        // Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        // var userId = userInfo.Id;
         List<Vault> vaults = _vaultsService.GetProfileVaults(id);
         return Ok(vaults);
       }

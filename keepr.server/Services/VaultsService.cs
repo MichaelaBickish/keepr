@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using keepr.server.Models;
 using keepr.server.Repositories;
 
@@ -60,7 +61,7 @@ namespace keepr.server.Services
       Vault vault = _vaultsRepo.GetById(vaultId);
       if (vault == null)
       {
-        throw new Exception("Inaultalid Id");
+        throw new Exception("Invalid Id");
       }
       else if (vault.IsPrivate == true)
       {
@@ -69,9 +70,21 @@ namespace keepr.server.Services
       return _vaultsRepo.GetVkeepsByVaultId(vaultId);
     }
 
-    internal List<Vault> GetProfileVaults(string userId)
+    internal List<Vault> GetProfileVaults(string profileId)
     {
-      return _vaultsRepo.GetProfileVaults(userId);
+      //Make sure signed in userId = profileId && make sure that someone who isn't signed in can't access all vaults.
+      // if (userId == profileId && userId != null)
+      // {
+      // return _vaultsRepo.GetOwnersProfileVaults(profileId);
+      // }
+      //if not logged in userid doesn't match profileId OR user isn't logged in, return only public vaults.
+      // return _vaultsRepo.GetPublicProfileVaults(profileId);
+
+      // Find all to iterate over every vault to check isPrivate or creatorID?
+      List<Vault> vaults = _vaultsRepo.GetProfileVaults(profileId);
+      return vaults.ToList().FindAll(v => v.IsPrivate == false);
+
     }
+
   }
 }
