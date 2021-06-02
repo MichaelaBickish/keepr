@@ -25,8 +25,8 @@
                      id="name"
                      placeholder="Name..."
                      required
+                     v-model="state.newVault.name"
               >
-              <!-- v-model="" -->
             </div>
             <div class="form-group">
               <label for="description">Description</label>
@@ -35,14 +35,13 @@
                      id="description"
                      placeholder="Description..."
                      required
+                     v-model="state.newVault.description"
               >
-              <!-- v-model="" -->
             </div>
 
             <div class="form-group">
               <label for="imgUrl">Image Url</label>
-              <input type="text" class="form-control" id="imgUrl" placeholder="Url...">
-            <!-- v-model -->
+              <input type="text" class="form-control" id="imgUrl" placeholder="Url..." v-model="state.newVault.img">
             </div>
             <div class="form-group">
               <label for="isPrivate">Private?</label>
@@ -50,8 +49,8 @@
                      class="form-control active-cursor"
                      title="Check This Item"
                      id="isPrivate"
+                     v-model="state.newVault.isPrivate"
               >
-            <!-- v-model="" -->
             </div><p class="font-weight-lighter">
               Private vaults can only be seen by you
             </p>
@@ -71,10 +70,34 @@
 </template>
 
 <script>
+import { computed, reactive } from 'vue'
+import { AppState } from '../AppState'
+import $ from 'jquery'
+import Notification from '../utils/Notification'
+import { vaultsService } from '../services/VaultsService'
+// import { profilesService } from '../services/ProfilesService'
 export default {
   name: 'CreateVaultModal',
   setup() {
-    return {}
+    const state = reactive({
+      newVault: {},
+      activeProfile: computed(() => AppState.activeProfile)
+    })
+    return {
+      state,
+      async createVault() {
+        try {
+          await vaultsService.createVault(state.newVault)
+          state.newVault = {}
+          $('#new-vault-form').modal('hide')
+          // debugger
+          Notification.toast('Your New Vault Has Been Created!', 'success')
+          // await profilesService.getProfileVaults(state.activeProfile.id)
+        } catch (error) {
+          Notification.toast('Error: ' + error, 'error')
+        }
+      }
+    }
   },
   components: {}
 }

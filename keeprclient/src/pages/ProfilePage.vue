@@ -26,8 +26,8 @@
       </div>
     </div>
     <div class="row my-3">
-      <div class="col">
-        Inject Vaults here {{ state.profileVaults }}
+      <div class="col-3">
+        <VaultComponent />
       </div>
     </div>
     <div class="row my-3">
