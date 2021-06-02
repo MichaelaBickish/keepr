@@ -52,13 +52,22 @@ CREATE TABLE IF NOT EXISTS vault_keeps(
   FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 -- //fkey for vault id, keep id, profile id.
+-- SELECT
+--   *
+-- FROM
+--   vaults
+-- INSERT INTO
+--   keeps (description, img, views, shares, keeps)
+-- VALUES
+--   ("My first keep!", "@Img", @Shares, @Keeps)
+-- SELECT
+--   LAST_INSERT_ID();
 SELECT
-  *
+  v.*,
+  a.*
 FROM
-  keeps -- --
-  -- INSERT INTO
-  --   keeps (description, img, views, shares, keeps)
-  -- VALUES
-  --   ("My first keep!", "@Img", @Shares, @Keeps)
-  -- SELECT
-  --   LAST_INSERT_ID();
+  vaults v
+  JOIN accounts a ON a.id = v.creatorId
+WHERE
+  v.creatorId = "10ef607a-e1b5-4618-a53a-fb81a2589d58"
+  AND v.isPrivate = 0;

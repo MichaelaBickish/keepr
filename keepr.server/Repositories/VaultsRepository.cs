@@ -108,9 +108,9 @@ namespace keepr.server.Repositories
       a.*
       FROM 
       vaults v
-      JOIN accounts a ON a.id = v.creatorId
+      JOIN accounts a ON v.creatorId = a.id
       WHERE
-      v.creatorId = @profileId && v.isPrivate = false;";
+      v.creatorId = @profileId AND v.isPrivate = 0;";
       //  --------item1 = v item2 = a, v:what returns
       return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
       {
