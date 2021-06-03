@@ -20,8 +20,8 @@ namespace keepr.server.Repositories
     {
       string sql = @"
                 INSERT INTO
-                vaults(name, description, creatorId, isPrivate)
-                VALUES (@Name, @Description, @CreatorId, @IsPrivate);
+                vaults(name, description, creatorId, isPrivate, img)
+                VALUES (@Name, @Description, @CreatorId, @IsPrivate, @Img);
                 SELECT LAST_INSERT_ID();
             ";
       newVault.Id = _db.ExecuteScalar<int>(sql, newVault);

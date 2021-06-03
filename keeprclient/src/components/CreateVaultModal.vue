@@ -75,7 +75,7 @@ import { AppState } from '../AppState'
 import $ from 'jquery'
 import Notification from '../utils/Notification'
 import { vaultsService } from '../services/VaultsService'
-// import { profilesService } from '../services/ProfilesService'
+import { profilesService } from '../services/ProfilesService'
 export default {
   name: 'CreateVaultModal',
   setup() {
@@ -92,7 +92,7 @@ export default {
           $('#new-vault-form').modal('hide')
           // debugger
           Notification.toast('Your New Vault Has Been Created!', 'success')
-          // await profilesService.getProfileVaults(state.activeProfile.id)
+          await profilesService.getProfileVaults(state.activeProfile.id)
         } catch (error) {
           Notification.toast('Error: ' + error, 'error')
         }

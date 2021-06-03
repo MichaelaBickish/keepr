@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS vaults(
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   img VARCHAR(255) COMMENT 'Vault imgUrl',
-  isPrivate boolean COMMENT 'Vault Privacy',
+  isPrivate boolean COMMENT 'Vault Privacy' default 0,
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 -- required - not null:
@@ -71,11 +71,12 @@ CREATE TABLE IF NOT EXISTS vault_keeps(
 -- WHERE
 --   v.creatorId = "10ef607a-e1b5-4618-a53a-fb81a2589d58"
 --   AND v.isPrivate = 0;
-SELECT
-  v.*,
-  a.*
-FROM
-  vaults v
-  JOIN accounts a ON a.id = v.creatorId
-WHERE
-  v.id = 50;
+-- SELECT
+--   v.*,
+--   a.*
+-- FROM
+--   vaults v
+--   JOIN accounts a ON a.id = v.creatorId
+-- WHERE
+--   v.id = 50;
+DROP TABLE keeps;

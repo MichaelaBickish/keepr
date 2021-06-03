@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-body">
-          <div class="container-fluid">
+          <div class="container-fluid" v-if="state.activeKeep">
             <div class="row justify-content-end">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Close Keep">
                 <span aria-hidden="true">&times;</span>
@@ -15,7 +15,7 @@
               </div>
               <div class="col-12 col-md-6">
                 <!-- row 1 -->
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mb-2">
                   <div class="col-5">
                     <p class="text-center">
                       <i class="far fa-eye text-primary"></i>  {{ state.activeKeep.views }}
@@ -39,18 +39,18 @@
                       {{ state.activeKeep.description }}
                     </p><hr>
                   </div>
+                </div>
+
+                <!-- row 3 -->
+                <div class="row justify-content-between align-items-end" v-if="state.user.isAuthenticated">
                   <!-- creator col -->
-                  <div class="col-12 justify-content-center">
+                  <div class="col-12 justify-content-center mt-3">
                     <router-link :to="{name: 'ProfilePage', params:{id: state.activeKeep.creator.id}}" data-dismiss="modal">
                       <p class="mt-2" title="View Profile">
                         <img :src="state.activeKeep.creator.picture" class="rounded-circle creator-img" alt=""> {{ state.activeKeep.creator.name }}
                       </p>
                     </router-link>
                   </div>
-                </div>
-
-                <!-- row 3 -->
-                <div class="row justify-content-between align-items-center">
                   <div class="col-10">
                     <!-- dropdown col -->
                     <div class="dropdown" title="Add This Keep To Vault">
@@ -96,7 +96,8 @@ export default {
   setup() {
     const state = reactive({
       activeKeep: computed(() => AppState.activeKeep),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      user: computed(() => AppState.user)
     })
     return {
       state,
@@ -128,4 +129,5 @@ export default {
 .action{
   cursor: pointer;
 }
+
 </style>
