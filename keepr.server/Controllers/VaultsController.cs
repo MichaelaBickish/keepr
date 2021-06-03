@@ -78,13 +78,13 @@ namespace keepr.server.Controllers
     //GET vaultkeeps- get keeps by vault id- IF VAULT IS MARKED PRIVATE, only owner can view keeps.
     // api/vaults/:vaultId/keeps
     [HttpGet("{id}/keeps")]
-    public async Task<ActionResult<List<VaultKeepsViewModel>>> GetVkeepsByVaultId(int vaultId)
+    public async Task<ActionResult<List<VaultKeepsViewModel>>> GetVkeepsByVaultId(int id)
     {
       try
       {
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-        var vKeeps = _vaultsService.GetVkeepsByVaultId(vaultId, userInfo.Id);
-        List<VaultKeepsViewModel> vaultkeeps = _vaultsService.GetVkeepsByVaultId(vaultId, userInfo.Id);
+        // var vKeeps = _vaultsService.GetVkeepsByVaultId(id, userInfo.Id);
+        List<VaultKeepsViewModel> vaultkeeps = _vaultsService.GetVkeepsByVaultId(id, userInfo);
         // if vault is private and user is not creator, cant access
         // if vault is private and user is creator, CAN access.
         // if not private, can access

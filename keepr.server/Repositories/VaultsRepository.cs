@@ -71,14 +71,19 @@ namespace keepr.server.Repositories
       string sql = @"
                 SELECT 
                 k.*,
-                v.*,
-                vk.id AS vaultKeepsId,
-                vk.vaultId AS vaultId
+                a.*,
+                vk.id AS vaultKeepId,
+                vk.vaultId AS vaultId,
+                vk.keepId AS keepId
                 FROM vault_keeps vk
                 JOIN keeps k ON k.id = vk.keepId
-                JOIN vaults v ON v.id = vk.vaultId
-                WHERE vk.vaultId = @vaultId AND isPrivate = 0";
-      return _db.Query<VaultKeepsViewModel>(sql, new { vaultId }).ToList();
+                JOIN accounts a ON k.creatorId = a.id
+                WHERE vk.vaultId = @vaultId;";
+      return _db.Query<VaultKeepsViewModel, Profile, VaultKeepsViewModel>(sql, (vk, a) =>
+      {
+        vk.Creator = a;
+        return vk;
+      }, new { vaultId }, splitOn: "id").ToList();
     }
 
     internal List<Vault> GetPublicProfileVaults(string profileId)

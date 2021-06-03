@@ -68,18 +68,24 @@ namespace keepr.server.Services
       _vaultsRepo.DeleteVault(id);
     }
 
-    internal List<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId, string userId)
+    internal List<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId, Profile userInfo)
     {
       Vault vault = _vaultsRepo.GetVaultById(vaultId);
       if (vault == null)
       {
         throw new Exception("Invalid Id");
       }
-      else if (vault.IsPrivate == true)
+      else if (vault.CreatorId == userInfo.Id || vault.IsPrivate == false)
       {
-        throw new Exception("This vault is private!");
+        List<VaultKeepsViewModel> vaultkeeps = _vaultsRepo.GetVkeepsByVaultId(vaultId);
+        if (vaultkeeps == null)
+        {
+          throw new Exception("Invalid Id");
+        }
+        return vaultkeeps;
       }
-      return _vaultsRepo.GetVkeepsByVaultId(vaultId);
+      throw new Exception("You can't access keeps inside a private vault!");
+      // throw new Exception("This vault is private!");
     }
 
     internal List<Vault> GetProfileVaults(string profileId)
