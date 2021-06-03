@@ -25,10 +25,8 @@
         </h2>
       </div>
     </div>
-    <div class="row my-3">
-      <div class="col-3">
-        <VaultComponent />
-      </div>
+    <div class="row my-3" v-if="state.vaults">
+      <VaultComponent v-for="vault in state.vaults" :key="vault.id" :vault="vault" />
     </div>
     <div class="row my-3">
       <div class="col">
