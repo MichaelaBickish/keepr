@@ -48,24 +48,26 @@ namespace keepr.server.Controllers
 
     //Get vault by id - get if public - don't get if it's private.
     [HttpGet("{id}")]
-    public async Task<ActionResult<Vault>> GetById(int id)
+    public async Task<ActionResult<Vault>> GetVaultById(int id)
     {
       try
       {
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-        Vault vault = _vaultsService.GetById(id);
+        Vault vault = _vaultsService.GetVaultById(userInfo, id);
+        return Ok(vault);
+
         // if vault is private and user is not creator, cant access
         // if vault is private and user is creator, CAN access.
         // if not private, can access
-        if (vault.IsPrivate == true && vault.CreatorId != userInfo.Id)
-        {
-          throw new Exception("This vault is private!");
-        }
-        else if (vault.IsPrivate == true && vault.CreatorId == userInfo.Id)
-        {
-          return Ok(vault);
-        }
-        return Ok(vault);
+        // if (vault.IsPrivate == true && vault.CreatorId == userId)
+        // {
+        //   return Ok(vault);
+        // }
+        // else if (vault.IsPrivate == true && vault.CreatorId != userId || userId == null)
+        // {
+        //   throw new Exception("This vault is private!");
+        // }
+        // return Ok(vault);
       }
       catch (Exception e)
       {

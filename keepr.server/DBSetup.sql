@@ -62,6 +62,15 @@ CREATE TABLE IF NOT EXISTS vault_keeps(
 --   ("My first keep!", "@Img", @Shares, @Keeps)
 -- SELECT
 --   LAST_INSERT_ID();
+-- SELECT
+--   v.*,
+--   a.*
+-- FROM
+--   vaults v
+--   JOIN accounts a ON a.id = v.creatorId
+-- WHERE
+--   v.creatorId = "10ef607a-e1b5-4618-a53a-fb81a2589d58"
+--   AND v.isPrivate = 0;
 SELECT
   v.*,
   a.*
@@ -69,5 +78,4 @@ FROM
   vaults v
   JOIN accounts a ON a.id = v.creatorId
 WHERE
-  v.creatorId = "10ef607a-e1b5-4618-a53a-fb81a2589d58"
-  AND v.isPrivate = 0;
+  v.id = 50;

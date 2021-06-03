@@ -28,7 +28,7 @@ namespace keepr.server.Repositories
       return newVault;
     }
 
-    internal Vault GetById(int id)
+    internal Vault GetVaultById(int id)
     {
       string sql = @"
             SELECT 
@@ -36,7 +36,7 @@ namespace keepr.server.Repositories
                 a.* 
             FROM vaults v 
             JOIN accounts a ON a.id = v.creatorId
-            WHERE v.id = @Id";
+            WHERE v.id = @id;";
       return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
       {
         v.Creator = a;

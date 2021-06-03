@@ -20,19 +20,31 @@ namespace keepr.server.Services
       return _vaultsRepo.Create(newVault);
     }
 
-    internal Vault GetById(int id)
+    internal Vault GetVaultById(Profile userinfo, int id)
     {
-      Vault v = _vaultsRepo.GetById(id);
-      if (v == null)
+      Vault vault = _vaultsRepo.GetVaultById(id);
+      //If vault is null throw exception
+      if (vault == null)
       {
-        throw new Exception("Invalid Id");
+        throw new Exception("Invalid Vault Id");
       }
-      return v;
+      // if vault is private and user is creator, CAN access.
+      // if vault is private and user is not creator, cant access
+      // if not private, can access
+      else if (vault.IsPrivate == true && vault.CreatorId != userinfo.Id)
+      {
+        throw new Exception("This vault is private and only viewable by it's owner!");
+      }
+      // else if (vault.IsPrivate == true && userinfo == null)
+      // {
+      //   throw new Exception("This vault is private and only viewable by it's owner!");
+      // }
+      return vault;
     }
 
     internal Vault Update(Vault v, string id)
     {
-      Vault vault = _vaultsRepo.GetById(v.Id);
+      Vault vault = _vaultsRepo.GetVaultById(v.Id);
       if (vault == null)
       {
         throw new Exception("Invalid Id");
@@ -47,7 +59,7 @@ namespace keepr.server.Services
 
     internal void DeleteVault(int id, string userId)
     {
-      Vault vault = GetById(id);
+      Vault vault = _vaultsRepo.GetVaultById(id);
       //check that creator is user.
       if (vault.CreatorId != userId)
       {
@@ -58,7 +70,7 @@ namespace keepr.server.Services
 
     internal List<VaultKeepsViewModel> GetVkeepsByVaultId(int vaultId, string userId)
     {
-      Vault vault = _vaultsRepo.GetById(vaultId);
+      Vault vault = _vaultsRepo.GetVaultById(vaultId);
       if (vault == null)
       {
         throw new Exception("Invalid Id");
