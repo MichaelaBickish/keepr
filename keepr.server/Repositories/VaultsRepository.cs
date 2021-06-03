@@ -20,8 +20,8 @@ namespace keepr.server.Repositories
     {
       string sql = @"
                 INSERT INTO
-                vaults(name, description, creatorId)
-                VALUES (@Name, @Description, @CreatorId);
+                vaults(name, description, creatorId, isPrivate)
+                VALUES (@Name, @Description, @CreatorId, @IsPrivate);
                 SELECT LAST_INSERT_ID();
             ";
       newVault.Id = _db.ExecuteScalar<int>(sql, newVault);
@@ -71,10 +71,8 @@ namespace keepr.server.Repositories
       string sql = @"
                 SELECT 
                 k.*,
-                a.*,
                 vk.id AS vaultKeepId,
-                vk.vaultId AS vaultId,
-                vk.keepId AS keepId
+                a.*
                 FROM vault_keeps vk
                 JOIN keeps k ON k.id = vk.keepId
                 JOIN accounts a ON k.creatorId = a.id

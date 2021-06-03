@@ -14,9 +14,10 @@ namespace keepr.server.Models
 
   public class VaultKeepsViewModel : Keep
   {
-    public int VaultId { get; set; }
-    public string VaultName { get; set; }
-    public bool IsPrivate { get; set; }
+    // public int VaultId { get; set; }
+    // public string VaultName { get; set; }
+    // public bool IsPrivate { get; set; }
+    public int VaultKeepId { get; set; }
 
   }
 }

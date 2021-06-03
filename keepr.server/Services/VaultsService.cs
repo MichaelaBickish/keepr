@@ -75,7 +75,7 @@ namespace keepr.server.Services
       {
         throw new Exception("Invalid Id");
       }
-      else if (vault.CreatorId == userInfo.Id || vault.IsPrivate == false)
+      else if (vault.CreatorId == userInfo?.Id || vault.IsPrivate == false)
       {
         List<VaultKeepsViewModel> vaultkeeps = _vaultsRepo.GetVkeepsByVaultId(vaultId);
         if (vaultkeeps == null)
