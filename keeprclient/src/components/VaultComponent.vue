@@ -6,9 +6,9 @@
       <img :src="vault.img" class="card-img w-100" alt="...">
       <a href="" data-toggle="modal" data-target="#vault-modal"></a>
       <div class="card-img-overlay d-flex align-items-end">
-        <h5 class="card-title mb-0 text-white">
-          {{ vault.name }}Vault Name
-        </h5>
+        <p class="card-title mb-0 text-white">
+          {{ vault.name }}
+        </p>
       </div>
     </div>
   </div>
