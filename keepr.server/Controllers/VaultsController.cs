@@ -117,9 +117,9 @@ namespace keepr.server.Controllers
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
         // don't trust client.
         update.Id = id;
-        Vault newVault = _vaultsService.Update(update, userInfo.Id);
-        newVault.Creator = userInfo;
-        return Ok(newVault);
+        update.CreatorId = userInfo.Id;
+        _vaultsService.Update(update, userInfo.Id);
+        return Ok(update);
       }
       catch (Exception e)
       {

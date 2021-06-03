@@ -49,7 +49,7 @@ namespace keepr.server.Services
       {
         throw new Exception("Invalid Id");
       }
-      if (vault.CreatorId != id)
+      if (vault.CreatorId != v.CreatorId)
       {
         throw new Exception("Only the owner of this vault can edit it.");
       }
