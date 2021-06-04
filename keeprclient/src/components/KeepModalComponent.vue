@@ -64,8 +64,14 @@
                         Add To Vault
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <option class="vaults px-2 action" v-for="currentUserVault in state.currentUserVaults" :key="currentUserVault.id" :value="currentUserVault.id" @click="createVaultKeep()">
-                          <p class="">
+                        <option class="dropdown-item vaults px-2 action"
+                                v-for="currentUserVault in state.currentUserVaults"
+                                :key="currentUserVault.id"
+                                :vault="currentUserVault"
+                                :keep="state.activeKeep"
+                                @click="createVaultKeep(currentUserVault.id)"
+                        >
+                          <p>
                             {{ currentUserVault.name }}
                           </p>
                         </option>
@@ -91,6 +97,7 @@ import { computed, reactive } from 'vue'
 import { AppState } from '../AppState'
 import Notification from '../utils/Notification'
 import { keepsService } from '../services/KeepsService'
+import { vaultKeepsService } from '../services/VaultKeepsService'
 import $ from 'jquery'
 export default {
   name: 'KeepModalComponent',
@@ -116,9 +123,15 @@ export default {
           Notification.toast('Error: ' + error, 'error')
         }
       },
-      async createVaultKeep() {
+      async createVaultKeep(vaultId) {
         try {
-          await keepsService.createVaultKeep(state.activeKeep.id)
+          // debugger
+          const newVaultKeep = {
+            keepId: state.activeKeep.id,
+            vaultId: vaultId
+          }
+          await vaultKeepsService.createVaultKeep(newVaultKeep)
+          Notification.toast('This keep has been saved to your vault!', 'success')
         } catch (error) {
           Notification.toast('Error: ' + error, 'error')
         }
