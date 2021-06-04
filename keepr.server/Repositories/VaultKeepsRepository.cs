@@ -22,6 +22,10 @@ namespace keepr.server.Repositories
       // SET
       //keeps = keeps +1
       string sql = @"
+           UPDATE keeps
+              SET
+              keeps = keeps + 1
+              WHERE id = @KeepId;
             INSERT INTO 
                 vault_keeps(vaultId, keepId, creatorId)
             VALUES(@VaultId, @KeepId, @CreatorId);

@@ -30,6 +30,10 @@ namespace keepr.server.Repositories
     internal Keep GetById(int id)
     {
       string sql = @"
+      UPDATE keeps
+      SET
+      views = views + 1
+      WHERE id = @id;
             SELECT 
                 k.*, 
                 a.* 

@@ -20,6 +20,7 @@
 
 <script>
 import { AppState } from '../AppState'
+import { keepsService } from '../services/KeepsService'
 export default {
   name: 'KeepComponent',
   props: {
@@ -30,8 +31,9 @@ export default {
   },
   setup(props) {
     return {
-      setActiveKeep() {
+      async setActiveKeep() {
         AppState.activeKeep = props.keep
+        await keepsService.getKeepById(AppState.activeKeep.id)
       }
     }
   },
