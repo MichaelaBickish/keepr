@@ -42,6 +42,12 @@ namespace keepr.server.Services
       return vault;
     }
 
+    internal List<Vault> GetCurrentUsersVaults(string userId)
+    {
+      List<Vault> vaults = _vaultsRepo.GetProfileVaults(userId);
+      return vaults.ToList();
+    }
+
     internal Vault Update(Vault v, string id)
     {
       Vault vault = _vaultsRepo.GetVaultById(v.Id);
@@ -88,7 +94,7 @@ namespace keepr.server.Services
       // throw new Exception("This vault is private!");
     }
 
-    internal List<Vault> GetProfileVaults(string profileId)
+    internal List<Vault> GetProfileVaults(string profileId, Profile userInfo)
     {
       //Make sure signed in userId = profileId && make sure that someone who isn't signed in can't access all vaults.
       // if (userId == profileId && userId != null)
@@ -100,9 +106,15 @@ namespace keepr.server.Services
 
       // Find all to iterate over every vault to check isPrivate or creatorID?
       List<Vault> vaults = _vaultsRepo.GetProfileVaults(profileId);
-      return vaults.ToList().FindAll(v => v.IsPrivate == false);
-
+      if (userInfo == null)
+      {
+        return vaults.ToList().FindAll(v => v.IsPrivate == false);
+      }
+      return vaults;
     }
 
+
   }
+
 }
+

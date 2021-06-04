@@ -59,6 +59,7 @@ namespace keepr.server.Repositories
       return v;
     }
 
+
     internal void DeleteVault(int id)
     {
       string sql = "DELETE FROM vaults WHERE id = @id LIMIT 1;";
@@ -84,24 +85,24 @@ namespace keepr.server.Repositories
       }, new { vaultId }, splitOn: "id").ToList();
     }
 
-    internal List<Vault> GetPublicProfileVaults(string profileId)
-    {
-      string sql = @"
-      SELECT
-      v.*,
-      a.*
-      FROM 
-      vaults v
-      JOIN accounts a ON a.id = v.creatorId
-      WHERE
-      v.creatorId = @profileId AND v.isPrivate = 0;";
-      //  --------item1 = v item2 = a, v:what returns
-      return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
-      {
-        v.Creator = a;
-        return v;
-      }, new { profileId }).ToList();
-    }
+    // internal List<Vault> GetPublicProfileVaults(string profileId)
+    // {
+    //   string sql = @"
+    //   SELECT
+    //   v.*,
+    //   a.*
+    //   FROM 
+    //   vaults v
+    //   JOIN accounts a ON a.id = v.creatorId
+    //   WHERE
+    //   v.creatorId = @profileId AND v.isPrivate = 0;";
+    //   //  --------item1 = v item2 = a, v:what returns
+    //   return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
+    //   {
+    //     v.Creator = a;
+    //     return v;
+    //   }, new { profileId }).ToList();
+    // }
 
     internal List<Vault> GetProfileVaults(string profileId)
     {
@@ -113,7 +114,7 @@ namespace keepr.server.Repositories
       vaults v
       JOIN accounts a ON v.creatorId = a.id
       WHERE
-      v.creatorId = @profileId AND v.isPrivate = 0;";
+      v.creatorId = @profileId;";
       //  --------item1 = v item2 = a, v:what returns
       return _db.Query<Vault, Profile, Vault>(sql, (v, a) =>
       {

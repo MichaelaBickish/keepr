@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS vaults(
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   img VARCHAR(255) COMMENT 'Vault imgUrl',
-  isPrivate boolean COMMENT 'Vault Privacy' default 0,
+  isPrivate boolean COMMENT 'Vault Privacy',
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 -- required - not null:

@@ -1,9 +1,9 @@
 <template>
   <!-- card start -->
-  <div class="col-3">
+  <div class="col-3 align-items-center justify-content-center d-flex mb-1">
     <router-link :to="{name: 'VaultDetailsPage', params:{id: vault.id}}">
       <div class="card text-white shadow active" title="View Vault">
-        <img :src="vault.img" class="card-img w-100" alt="...">
+        <img :src="vault.img" class="card-img " alt="...">
         <a href="" data-toggle="modal" data-target="#vault-modal"></a>
         <div class="card-img-overlay d-flex align-items-end">
           <p class="card-title mb-0 text-white">

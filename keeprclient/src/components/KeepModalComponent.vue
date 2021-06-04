@@ -1,4 +1,4 @@
-<template class="Keep-Modal-Component">
+<template class="Keep-Modal-Component" v-if="state.account">
   <div class="modal" id="keep-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -51,10 +51,10 @@
                       </p>
                     </router-link>
                   </div>
-                  <div class="col-10">
+                  <div class="col-10" v-if="state.currentUserVaults">
                     <!-- dropdown col -->
                     <div class="dropdown" title="Add This Keep To Vault">
-                      <button class="btn btn-outline-primary dropdown-toggle"
+                      <button class="btn btn-outline-primary dropdown-toggle px-4"
                               type="button"
                               id="dropdownMenuButton"
                               data-toggle="dropdown"
@@ -64,9 +64,11 @@
                         Add To Vault
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <option class="vaults px-2 action" v-for="currentUserVault in state.currentUserVaults" :key="currentUserVault.id" :value="currentUserVault.id" @click="createVaultKeep()">
+                          <p class="">
+                            {{ currentUserVault.name }}
+                          </p>
+                        </option>
                       </div>
                     </div>
                   </div>
@@ -97,17 +99,26 @@ export default {
     const state = reactive({
       activeKeep: computed(() => AppState.activeKeep),
       account: computed(() => AppState.account),
-      user: computed(() => AppState.user)
+      user: computed(() => AppState.user),
+      vaults: computed(() => AppState.profileVaults),
+      currentUserVaults: computed(() => AppState.currentUserVaults)
     })
     return {
       state,
       async deleteKeep(activeKeep) {
         try {
-          if (await Notification.confirmAction()) {
+          if (await Notification.confirmAction('Delete This Keep?', 'Your keep will be permanently deleted.', 'warning', 'Yes, Delete Keep!')) {
             await keepsService.deleteKeep(activeKeep)
             Notification.toast('Your Keep Has Been Deleted!', 'success')
             $('#keep-modal').modal('hide')
           }
+        } catch (error) {
+          Notification.toast('Error: ' + error, 'error')
+        }
+      },
+      async createVaultKeep() {
+        try {
+          await keepsService.createVaultKeep(state.activeKeep.id)
         } catch (error) {
           Notification.toast('Error: ' + error, 'error')
         }

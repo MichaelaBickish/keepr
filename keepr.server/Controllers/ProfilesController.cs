@@ -60,14 +60,15 @@ namespace keepr.server.Controllers
 
     //Get a user's vaults
     [HttpGet("{id}/vaults")]
-    public ActionResult<List<Vault>> GetProfileVaults(string id)
+    public async Task<ActionResult<List<Vault>>> GetProfileVaults(string id)
     {
       try
       {
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
         //Get user info to compare in service if signed in userid = profileid.
         // Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
         // var userId = userInfo.Id;
-        List<Vault> vaults = _vaultsService.GetProfileVaults(id);
+        List<Vault> vaults = _vaultsService.GetProfileVaults(id, userInfo);
         return Ok(vaults);
       }
       catch (Exception e)

@@ -80,7 +80,9 @@ export default {
   name: 'CreateVaultModal',
   setup() {
     const state = reactive({
-      newVault: {},
+      newVault: {
+        // isPrivate: false
+      },
       activeProfile: computed(() => AppState.activeProfile)
     })
     return {
@@ -90,7 +92,6 @@ export default {
           await vaultsService.createVault(state.newVault)
           state.newVault = {}
           $('#new-vault-form').modal('hide')
-          // debugger
           Notification.toast('Your New Vault Has Been Created!', 'success')
           await profilesService.getProfileVaults(state.activeProfile.id)
         } catch (error) {
