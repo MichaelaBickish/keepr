@@ -4,7 +4,7 @@
     <img :src="keep.img" class="card-img" alt="...">
     <a href="" data-toggle="modal" data-target="#keep-modal"></a>
     <div class="card-img-overlay d-flex flex-column justify-content-between">
-      <i class="fas fa-times text-danger mx-2 action" title="Delete this keep from the vault" @click="deleteVaultKeep()" v-if="state.account.id == state.activeVault.creatorId"></i>
+      <i class="fas fa-times text-danger mx-2 action" title="Delete this keep from the vault" @click="deleteVaultKeep(id)" v-if="state.account.id == state.activeVault.creatorId"></i>
       <div v-else></div>
       <div>
         <!-- Button trigger modal -->
@@ -47,10 +47,11 @@ export default {
       setActiveKeep() {
         AppState.activeKeep = props.keep
       },
-      async deleteVaultKeep() {
+      async deleteVaultKeep(id) {
         try {
+          debugger
           if (await Notification.confirmAction('Delete This Keep?', 'It will be deleted out of your vault permanently', 'warning', 'Yes, Delete Keep!')) {
-            await vaultKeepsService.deleteVaultKeep()
+            await vaultKeepsService.deleteVaultKeep(id)
             Notification.toast('Keep has been removed from this vault!', 'success')
           }
         } catch (error) {

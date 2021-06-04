@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <h1 title="Go To Home">
@@ -33,7 +33,7 @@
       </ul>
       <span class="navbar-text">
         <button
-          class="btn btn-outline-primary text-uppercase"
+          class="btn btn-outline-dark text-uppercase"
           @click="login"
           v-if="!user.isAuthenticated"
         >

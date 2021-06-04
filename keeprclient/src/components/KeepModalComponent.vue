@@ -42,7 +42,7 @@
                 </div>
 
                 <!-- row 3 -->
-                <div class="row justify-content-between align-items-end" v-if="state.user.isAuthenticated">
+                <div class="row justify-content-between align-items-end">
                   <!-- creator col -->
                   <div class="col-12 justify-content-center mt-3">
                     <router-link :to="{name: 'ProfilePage', params:{id: state.activeKeep.creator.id}}" data-dismiss="modal">
@@ -51,7 +51,7 @@
                       </p>
                     </router-link>
                   </div>
-                  <div class="col-10" v-if="state.currentUserVaults">
+                  <div class="col-10" v-if="state.currentUserVaults && state.user.isAuthenticated">
                     <!-- dropdown col -->
                     <div class="dropdown" title="Add This Keep To Vault">
                       <button class="btn btn-outline-primary dropdown-toggle px-4"
@@ -79,7 +79,7 @@
                     </div>
                   </div>
                   <!-- delete column -->
-                  <div class="col-2 justify-content-center align-items-center d-flex">
+                  <div class="col-2 justify-content-center align-items-center d-flex" v-if="state.user.isAuthenticated">
                     <i class="fa fa-trash text-danger action" @click="deleteKeep(state.activeKeep)" v-if="state.activeKeep.creatorId == state.account.id" aria-hidden="true" title="Delete Keep"></i>
                   </div>
                 </div>
