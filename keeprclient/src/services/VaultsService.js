@@ -17,6 +17,11 @@ class VaultsService {
     AppState.vaults = AppState.vaults.filter(v => v.id !== activeVault.id)
     router.push({ name: 'ProfilePage', params: { id: activeVault.creatorId } })
   }
+
+  async getVaultKeeps(vaultId) {
+    const res = await api.get('api/vaults/' + vaultId + '/keeps')
+    AppState.vaultKeeps = res.data
+  }
 }
 
 export const vaultsService = new VaultsService()
