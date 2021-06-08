@@ -111,15 +111,17 @@ namespace keepr.server
 
       app.UseHttpsRedirection();
 
-      // NOTE use to serve your built client
-      app.UseDefaultFiles();
-      app.UseStaticFiles();
+
 
       app.UseRouting();
       // use authentication above use authorization or it won't work
       app.UseAuthentication();
 
       app.UseAuthorization();
+
+      // NOTE use to serve your built client
+      app.UseDefaultFiles();
+      app.UseStaticFiles();
 
       app.UseEndpoints(endpoints =>
       {
