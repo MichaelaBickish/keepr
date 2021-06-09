@@ -18,6 +18,8 @@ jobs:
           dotnet-version: 5.0.x
       # dotnet build and publish
       - name: dotnet publish
+        env: 
+          DB.scalegrid: ${{ secrets.CONNECTION_STRING }}
         run: |
           dotnet publish ./keepr.server -c Release 
 ### :arrow_down: IMPORTANT PART :arrow_down: ###
