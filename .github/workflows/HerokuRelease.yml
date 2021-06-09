@@ -12,7 +12,15 @@ jobs:
       # Check-out your repository.
       - name: Checkout
         uses: actions/checkout@v2
-### ⬇ IMPORTANT PART ⬇ ###
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      # dotnet build and publish
+      - name: dotnet publish
+        run: |
+          dotnet publish ./keeprserver.server -c Release 
+### :arrow_down: IMPORTANT PART :arrow_down: ###
       - name: Build, Push and Release a Docker container to Heroku.
         uses: gonuit/heroku-docker-deploy@v1.3.3 # GitHub action name (leave it as it is).
         with:
@@ -26,5 +34,5 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           # Name of the heroku application to which the build is to be sent.
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          dockerfile_directory: ./keepr.server
-### ⬆ IMPORTANT PART ⬆ ###
+          dockerfile_directory: ./
+### :arrow_up: IMPORTANT PART :arrow_up: ###
